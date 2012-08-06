@@ -200,6 +200,7 @@ public class SQLDroidPreparedStatement implements PreparedStatement {
     }
     else {
       db.execSQL(sql, makeArgListQueryObject());
+        return true;
     }
     return potentialResultSet && rs != null && rs.getMetaData().getColumnCount() != 0;
   }
