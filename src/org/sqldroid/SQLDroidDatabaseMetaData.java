@@ -181,7 +181,7 @@ public class SQLDroidDatabaseMetaData implements DatabaseMetaData {
 	      "ORDINAL_POSITION", "IS_NULLABLE", "SCOPE_CATLOG", "SCOPE_SCHEMA", "SCOPE_TABLE", "SOURCE_DATA_TYPE", 
 	  "IS_AUTOINCREMENT"};
 	  final Object[] columnValues = new Object[] {null, null, null, null, null, null, null, null, null, new Integer(10), 
-	      new Integer(2) /* columnNullableUnknown */, null, null, null, null, new Integer(-1), new Integer(-1), "",
+	      new Integer(-1) , null, null, null, null, new Integer(-1), new Integer(-1), "",
 	      null, null, null, null, ""};
 
 	  SQLiteDatabase db = con.getDb();
@@ -223,13 +223,7 @@ public class SQLDroidDatabaseMetaData implements DatabaseMetaData {
 	          else {  // manufactured columns, eg select 100 as something from tablename, may not have a type.
 	            column[4] = java.sql.Types.NULL;
 	          }
-	          int nullable = c.getInt(3);
-	          if ( nullable == 0 ) {
-	            column[10] = new Integer[1];
-	          }
-	          else if ( nullable == 1 ) {
-	            column[10] = new Integer[0];
-	          }
+            column[10] = c.getInt(3); // NULLABLE
 	          column[12] = c.getString(4);  // we should check the type for this, but I'm not going to.
 	          mc.addRow(column);
 	        }
