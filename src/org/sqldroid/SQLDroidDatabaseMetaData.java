@@ -1,18 +1,12 @@
 package org.sqldroid;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.RowIdLifetime;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 //import android.database.sqlite.SQLiteDatabase;
 
 public class SQLDroidDatabaseMetaData implements DatabaseMetaData {
@@ -564,10 +558,24 @@ public class SQLDroidDatabaseMetaData implements DatabaseMetaData {
 	@Override
 	public ResultSet getPrimaryKeys(String catalog, String schema, String table)
 			throws SQLException {
-		System.err.println(" ********************* not implemented @ "
-				+ DebugPrinter.getFileName() + " line "
-				+ DebugPrinter.getLineNumber());
-		return null;
+
+        final String[] columnNames = new String [] {"TABLE_CAT", "TABLE_SCHEM", "TABLE_NAME", "COLUMN_NAME", "KEY_SEQ", "PK_NAME"};
+        final Object[] columnValues = new Object[] {null, null, null, null, null, null};
+        SQLiteDatabase db = con.getDb();
+
+        Cursor c = db.rawQuery("pragma table_info('" + table + "')", new String[] {});
+        MatrixCursor mc = new MatrixCursor(columnNames);
+        while (c.moveToNext()) {
+
+            if(c.getInt(5) > 0) {
+                Object[] column = columnValues.clone();
+                column[2] = table;
+                column[3] = c.getString(1);
+                mc.addRow(column);
+            }
+        }
+        c.close();
+        return new SQLDroidResultSet(mc);
 	}
 
 	@Override
