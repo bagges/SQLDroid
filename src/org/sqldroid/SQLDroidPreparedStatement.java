@@ -1,35 +1,19 @@
 package org.sqldroid;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.ParameterMetaData;
-import java.sql.PreparedStatement;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.util.Log;
 
 public class SQLDroidPreparedStatement implements PreparedStatement {
 
@@ -702,9 +686,8 @@ public class SQLDroidPreparedStatement implements PreparedStatement {
   @Override
   public void setObject(int parameterIndex, Object theObject)
   throws SQLException {
-    System.err.println(" ********************* not implemented @ "
-        + DebugPrinter.getFileName() + " line "
-        + DebugPrinter.getLineNumber());
+      ensureCap(parameterIndex);
+      setObj(parameterIndex, theObject);
 
   }
 
