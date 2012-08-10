@@ -1,32 +1,17 @@
 package org.sqldroid;
 
+import android.database.Cursor;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
-import java.sql.NClob;
-import java.sql.Ref;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.RowId;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
-import android.database.Cursor;
-
-public class SQLDroidResultSet implements ResultSet {
+public class SQLDroidResultSet<T> implements ResultSet {
   
     private final Cursor c;
     private int lastColumnRead;
@@ -425,14 +410,34 @@ public class SQLDroidResultSet implements ResultSet {
 
   @Override
   public Object getObject(int colID) throws SQLException {
-    //System.err.println(" ********************* not implemented @ " + DebugPrinter.getFileName() + " line " + DebugPrinter.getLineNumber());
-    return getString(colID);
+      lastColumnRead = colID;
+      int newIndex = ci(colID);
+      switch(c.getType(newIndex)) {
+          case Cursor.FIELD_TYPE_BLOB:
+              //CONVERT TO BYTE[] OBJECT
+              byte[] blob = c.getBlob(newIndex);
+              Byte[] ba = new Byte[blob.length];
+              for(int i = 0; i<blob.length; i++) {
+                  ba[i] = new Byte(blob[i]);
+              }
+              return ba;
+          case Cursor.FIELD_TYPE_FLOAT:
+              return new Float(c.getFloat(newIndex));
+          case Cursor.FIELD_TYPE_INTEGER:
+              return new Integer(c.getInt(newIndex));
+          case Cursor.FIELD_TYPE_STRING:
+              return c.getString(newIndex);
+          case Cursor.FIELD_TYPE_NULL:
+              return null;
+          default:
+              return c.getString(newIndex);
+      }
   }
 
   @Override
   public Object getObject(String columnName) throws SQLException {
-    //System.err.println(" ********************* not implemented @ " + DebugPrinter.getFileName() + " line " + DebugPrinter.getLineNumber());
-    return getString(columnName);
+      int index = c.getColumnIndex(columnName);
+      return getObject(index + 1);
   }
 
   @Override
@@ -1396,5 +1401,4 @@ public class SQLDroidResultSet implements ResultSet {
     // TODO Auto-generated method stub
 
   }
-
 }
