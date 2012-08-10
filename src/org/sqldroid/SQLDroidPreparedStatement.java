@@ -959,4 +959,12 @@ public class SQLDroidPreparedStatement implements PreparedStatement {
 
   }
 
+  public boolean isCloseOnCompletion() throws SQLException {
+      //TODO auto generated code
+      return false;
+  }
+
+  public void closeOnCompletion() throws SQLException {
+      //TODO auto generated code
+  }
 }

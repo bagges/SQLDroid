@@ -449,6 +449,14 @@ public class SQLDroidResultSet implements ResultSet {
     return null;
   }
 
+  public <T> T getObject(int columnIndex, Class<T> clazz) {
+      return null;
+  }
+
+  public <T> T getObject(String columnLabel, Class<T> clazz) {
+      return null;
+  }
+
   @Override
   public Ref getRef(int colID) throws SQLException {
     System.err.println(" ********************* not implemented @ " + DebugPrinter.getFileName() + " line " + DebugPrinter.getLineNumber());

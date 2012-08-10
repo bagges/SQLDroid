@@ -1,13 +1,9 @@
 package org.sqldroid;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
-
 import android.database.Cursor;
 import android.util.Log;
+
+import java.sql.*;
 
 public class SQLDroidStatement implements Statement {
 
@@ -345,4 +341,12 @@ public class SQLDroidStatement implements Statement {
 
   }
 
+  public boolean isCloseOnCompletion() throws SQLException {
+      //TODO auto generated code
+      return false;
+  }
+
+  public void closeOnCompletion() throws SQLException {
+      //TODO auto generated code
+  }
 }

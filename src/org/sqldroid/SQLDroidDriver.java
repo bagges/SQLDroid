@@ -3,7 +3,9 @@ package org.sqldroid;
 import java.sql.Connection;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class SQLDroidDriver implements java.sql.Driver {
 
@@ -67,4 +69,8 @@ public class SQLDroidDriver implements java.sql.Driver {
         return false;
     }
 
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        //TODO auto-generated code
+        return null;
+    }
 }
